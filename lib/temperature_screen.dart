@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final double? celcius = double.tryParse(value);
     if (celcius != null) {
       fahrenheitController.text = ((celcius * 9 / 5) + 32).toStringAsFixed(2);
-      kelvinController.text = (celcius * 273.15).toStringAsFixed(2);
+      kelvinController.text = (celcius + 273.15).toStringAsFixed(2);
     }
   }
 
@@ -35,14 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final double? kelvin = double.tryParse(value);
     if (kelvin != null) {
-      fahrenheitController.text = ((kelvin * 9 / 5) - 459.67).toStringAsFixed(
-        2,
-      );
+      fahrenheitController.text = ((kelvin - 273.15) * 9 / 5 + 32)
+          .toStringAsFixed(2);
       degreeController.text = (kelvin - 273.15).toStringAsFixed(2);
     }
   }
 
-  void updateFromelFahrenheit(String value) {
+  void updateFromFahrenheit(String value) {
     if (value.isEmpty) {
       kelvinController.clear();
       degreeController.clear();
@@ -51,10 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final double? fahrenheit = double.tryParse(value);
     if (fahrenheit != null) {
-      degreeController.text = ((fahrenheit - 32) * 9 / 5).toStringAsFixed(2);
-      kelvinController.text = ((fahrenheit + 459.67) * 5 / 9).toStringAsFixed(
-        2,
-      );
+      degreeController.text = ((fahrenheit - 32) * 5 / 9).toStringAsFixed(2);
+      kelvinController.text = ((fahrenheit - 32) * 5 / 9 + 273.15).toStringAsFixed(2);
     }
   }
 
@@ -107,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 35),
 
                 TextFormField(
-                  onChanged: updateFromelFahrenheit,
+                  onChanged: updateFromFahrenheit,
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   controller: fahrenheitController,
                   decoration: InputDecoration(
@@ -150,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
                 SizedBox(height: 50),
-                
+
                 Container(
                   width: double.infinity,
                   //alignment: Alignment(0, 0),
@@ -176,27 +173,27 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(height: 7),
 
                         Text(
-                          "• Degree Celcius to Fahrenheit: F = (°C * 9/5) + 32",
+                          "• Degree Celcius to Fahrenheit: F = (°C * 32) * 5/9 + 273.15",
                           style: TextStyle(fontSize: 15),
                         ),
 
                         SizedBox(height: 6),
                         Text(
-                          "• Degree Celcius to Kelvin: K = °C * 273.15",
-                          style: TextStyle(fontSize: 15),
-                        ),
-
-                        SizedBox(height: 6),
-
-                        Text(
-                          "• Fahrenheit to Degree Celcius: °C = (°F - 32) * 9/5",
+                          "• Degree Celcius to Kelvin: K = °C + 273.15",
                           style: TextStyle(fontSize: 15),
                         ),
 
                         SizedBox(height: 6),
 
                         Text(
-                          "• Fahrenheit to Kelvin: K = (°F -32) * 9/5)",
+                          "• Fahrenheit to Degree Celcius: °C = (°F - 32) * 5/9",
+                          style: TextStyle(fontSize: 15),
+                        ),
+
+                        SizedBox(height: 6),
+
+                        Text(
+                          "• Fahrenheit to Kelvin: K = (°F -32) * 5/9 + 278.15",
                           style: TextStyle(fontSize: 15),
                         ),
 
@@ -210,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(height: 6),
 
                         Text(
-                          "• Kelvin to Fahrenheit: F = (K * 9/5) - 459.67",
+                          "• Kelvin to Fahrenheit: F = (K - 273.15) * 9/5 + 32",
                           style: TextStyle(fontSize: 15),
                         ),
                       ],
