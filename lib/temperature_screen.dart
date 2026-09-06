@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:temperatureconvector/notifiers.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -51,7 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final double? fahrenheit = double.tryParse(value);
     if (fahrenheit != null) {
       degreeController.text = ((fahrenheit - 32) * 5 / 9).toStringAsFixed(2);
-      kelvinController.text = ((fahrenheit - 32) * 5 / 9 + 273.15).toStringAsFixed(2);
+      kelvinController.text = ((fahrenheit - 32) * 5 / 9 + 273.15)
+          .toStringAsFixed(2);
     }
   }
 
@@ -66,7 +68,23 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 5, title: Text("Temperature Conversion")),
+      appBar: AppBar(
+        elevation: 5,
+        title: Text("Temperature Conversion"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              isDarkModeNotifier.value = !isDarkModeNotifier.value;
+            },
+            icon: ValueListenableBuilder(
+              valueListenable: isDarkModeNotifier,
+              builder: (context, isDarkMode, child) {
+                return Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode);
+              },
+            ),
+          ),
+        ],
+      ),
 
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -122,8 +140,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       minimumSize: Size(150.5, 0),
                       side: BorderSide(color: Colors.white),
                       elevation: 5,
-                      backgroundColor: const Color.fromARGB(131, 141, 92, 164),
-                      foregroundColor: const Color.fromARGB(255, 238, 238, 243),
                       padding: EdgeInsets.all(8.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -152,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: double.infinity,
                   //alignment: Alignment(0, 0),
                   decoration: BoxDecoration(
-                    border: BoxBorder.all(color: Colors.white60),
+                    border: BoxBorder.all(),
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),

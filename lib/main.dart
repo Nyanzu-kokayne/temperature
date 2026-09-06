@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:temperatureconvector/notifiers.dart';
 import 'package:temperatureconvector/temperature_screen.dart';
 
 void main() {
@@ -10,11 +11,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomeScreen(),
-      debugShowCheckedModeBanner: false,
-      //theme: ThemeData.dark(useMaterial3: true),
-      theme: ThemeData.dark(useMaterial3: true),
+    return ValueListenableBuilder(
+      valueListenable: isDarkModeNotifier,
+      builder: (context, isDarkMode, child) {
+        return MaterialApp(
+          home: HomeScreen(),
+          debugShowCheckedModeBanner: false,
+          
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color.fromARGB(221, 219, 210, 235),
+              brightness: isDarkMode ? Brightness.dark : Brightness.light,
+            ),
+          ),
+        );
+      },
     );
   }
 }
